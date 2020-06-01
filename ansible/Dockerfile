@@ -1,4 +1,4 @@
-FROM python
+FROM python:3-alpine
 
 ARG PYPI_REPO='https://pypi.org/simple'
 
