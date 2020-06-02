@@ -8,6 +8,8 @@ RUN apk --update add ${BUILD_DEP} ${RUN_DEP} \
  && pip install 'ansible<2.8' \
  && apk del ${BUILD_DEP} \
  && rm -rf /root/.cache \
- && rm -rf /var/cache/apk*
+ && rm -rf /var/cache/apk* \
+ && mkdir -p /etc/ansible \
+ && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
 
 ENTRYPOINT [ "ansible-playbook", "--version" ]
