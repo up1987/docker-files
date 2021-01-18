@@ -4,7 +4,8 @@ ARG BUILD_DEP='build-base libffi-dev openssl-dev'
 ARG RUN_DEP='openssl ca-certificates'
 
 ENV ANSIBLE_STRATEGY_PLUGINS=/usr/local/lib/python3.9/site-packages/ansible_mitogen/plugins/strategy \
-    ANSIBLE_STRATEGY=mitogen_linear
+    ANSIBLE_STRATEGY=mitogen_linear \
+    ANSIBLE_PYTHON_INTERPRETER=/usr/local/bin/python3
 
 RUN apk --update add ${BUILD_DEP} ${RUN_DEP} \
  && pip install -U pip \
