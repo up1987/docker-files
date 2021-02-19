@@ -1,10 +1,7 @@
 FROM python:3.7-alpine
 
 ARG BUILD_DEP='build-base libffi-dev openssl-dev'
-ARG RUN_DEP='openssl ca-certificates'
-
-ENV ANSIBLE_STRATEGY_PLUGINS=/usr/local/lib/python3.7/site-packages/ansible_mitogen/plugins/strategy \
-    ANSIBLE_STRATEGY=mitogen_linear
+ARG RUN_DEP='openssl ca-certificates openssh'
 
 RUN apk --update add ${BUILD_DEP} ${RUN_DEP} \
  && pip install -U pip \
@@ -16,6 +13,10 @@ RUN apk --update add ${BUILD_DEP} ${RUN_DEP} \
  && rm -rf /var/cache/apk* \
  && mkdir -p /etc/ansible \
  && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
+
+ENV ANSIBLE_STRATEGY_PLUGINS=/usr/local/lib/python3.7/site-packages/ansible_mitogen/plugins/strategy \
+    ANSIBLE_STRATEGY=mitogen_linear \
+    INTERPRETER_PYTHON=auto_silent
 
 ENTRYPOINT [ "ansible-playbook" ]
 CMD ["--version"]
